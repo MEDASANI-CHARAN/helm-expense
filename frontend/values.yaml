@@ -2,6 +2,6 @@ configmap:
   port: 8080
 deployment:
   replicas: 3
-  imageVersion: stable-bookworm-perl
+  imageVersion: 1.0.0
 service:
   nodeport: 31732

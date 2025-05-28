@@ -1,7 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx-deploment
+  name: frontend
+  namespace: expense
   # these labels belongs to deplyment resource
   labels:
     name: deployment2
