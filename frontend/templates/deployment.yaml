@@ -1,36 +1,43 @@
-kind: Deployment
 apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: frontend
   namespace: expense
-  # these labels are deployment related labels
+  # these labels belongs to deplyment resource
   labels:
-    component: frontend
     project: expense
+    component: frontend
+    environment: dev
     tier: web
 spec:
-  replicas: {{ .Values.deployment.replicas }}
+  # modify replicas according to your case
+  replicas: {{ .Value.deployment.replicas }}
   selector:
     matchLabels:
-      component: frontend
       project: expense
+      component: frontend
+      environment: dev
       tier: web
-  # pod definition
+    # below is the pod defination
   template:
     metadata:
       labels:
-        component: frontend
         project: expense
+        component: frontend
+        environment: dev
         tier: web
     spec:
       containers:
       - name: frontend
-        image: charan466/frontend:{{ .Values.deployment.imageVersion }}
+        image: charan466/frontend:{{ .Value.deployment.imageVersion }}
         volumeMounts:
         - name: nginx-conf
           mountPath: /etc/nginx/nginx.conf
           subPath: nginx.conf
           readOnly: true
+        # env:
+        #     - name: frontend_ROOT_PASSWORD
+        #       value: Expenseweb@1
         # envFrom:
         # - configMapRef:
         #     name: frontend
@@ -41,33 +48,3 @@ spec:
           items:
           - key: nginx.conf
             path: nginx.conf
-
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   name: frontend
-#   namespace: expense
-#   # these labels belongs to deplyment resource
-#   labels:
-#     name: deployment2
-#     project: expense2
-#     component: helm2
-# spec:
-#   # modify replicas according to your case
-#   replicas: {{ .Values.deployment.replicas }}
-#   selector:
-#     matchLabels:
-#       tier: helm
-#       app: nginx
-#     # below is the pod defination
-#   template:
-#     metadata: 
-#       labels:
-#         tier: helm
-#         app: nginx
-#         extra-key: extra-value
-#     spec:
-#       containers:
-#       - name: nginx
-#         image: charan466/frontend:{{ .Values.deployment.imageVersion }}
-
