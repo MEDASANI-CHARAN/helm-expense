@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+  namespace: expense
+  # these labels belongs to deplyment resource
+  labels:
+    project: expense11
+    component: mysql11
+    environment: dev11
+    tier: db11
+spec:
+  # modify replicas according to your case
+  replicas: {{.Values.deplyment.replicas }}
+  selector:
+    matchLabels:
+      project: expense
+      component: mysql
+      environment: dev
+      tier: db
+    # below is the pod defination
+  template:
+    metadata:
+      labels:
+        project: expense
+        component: mysql
+        environment: dev
+        tier: db
+    spec:
+      containers:
+      - name: mysql
+        image: charan466/mysql:{{ .Values.deploment.imageVersion }}
+        env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: ExpenseApp@1
+
