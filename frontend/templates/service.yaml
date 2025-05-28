@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: frontend
   namespace: expense
-spec:
+spec: 
   type: LoadBalancer
   selector:
     name: frontend
