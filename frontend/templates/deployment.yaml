@@ -1,29 +1,73 @@
-apiVersion: apps/v1
 kind: Deployment
+apiVersion: apps/v1
 metadata:
   name: frontend
   namespace: expense
-  # these labels belongs to deplyment resource
+  # these labels are deployment related labels
   labels:
-    name: deployment2
-    project: expense2
-    component: helm2
+    component: frontend
+    project: expense
+    tier: web
 spec:
-  # modify replicas according to your case
   replicas: {{ .Values.deployment.replicas }}
   selector:
     matchLabels:
-      tier: helm
-      app: nginx
-    # below is the pod defination
+      component: frontend
+      project: expense
+      tier: web
+  # pod definition
   template:
-    metadata: 
+    metadata:
       labels:
-        tier: helm
-        app: nginx
-        extra-key: extra-value
+        component: frontend
+        project: expense
+        tier: web
     spec:
       containers:
-      - name: nginx
+      - name: frontend
         image: charan466/frontend:{{ .Values.deployment.imageVersion }}
+        volumeMounts:
+        - name: nginx-conf
+          mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf
+          readOnly: true
+        # envFrom:
+        # - configMapRef:
+        #     name: frontend
+      volumes:
+      - name: nginx-conf
+        configMap:
+          name: frontend
+          items:
+          - key: nginx.conf
+            path: nginx.conf
+
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: frontend
+#   namespace: expense
+#   # these labels belongs to deplyment resource
+#   labels:
+#     name: deployment2
+#     project: expense2
+#     component: helm2
+# spec:
+#   # modify replicas according to your case
+#   replicas: {{ .Values.deployment.replicas }}
+#   selector:
+#     matchLabels:
+#       tier: helm
+#       app: nginx
+#     # below is the pod defination
+#   template:
+#     metadata: 
+#       labels:
+#         tier: helm
+#         app: nginx
+#         extra-key: extra-value
+#     spec:
+#       containers:
+#       - name: nginx
+#         image: charan466/frontend:{{ .Values.deployment.imageVersion }}
 
