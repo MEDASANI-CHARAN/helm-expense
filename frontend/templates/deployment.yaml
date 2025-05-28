@@ -11,7 +11,7 @@ metadata:
     tier: web
 spec:
   # modify replicas according to your case
-  replicas: {{ .Value.deployment.replicas1 }}
+  replicas: {{ .Value.deployment.replicas }}
   selector:
     matchLabels:
       project: expense
@@ -29,7 +29,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: charan466/frontend:{{ .Value.deployment.imageVersion1 }}
+        image: charan466/frontend:{{ .Value.deployment.imageVersion }}
         volumeMounts:
         - name: nginx-conf
           mountPath: /etc/nginx/nginx.conf
