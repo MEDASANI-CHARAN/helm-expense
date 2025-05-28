@@ -17,7 +17,7 @@ spec:
       app: nginx
     # below is the pod defination
   template:
-    metadata:
+    metadata: 
       labels:
         tier: helm
         app: nginx
