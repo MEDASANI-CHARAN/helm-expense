@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: expense
+  # these labels belongs to deplyment resource
+  labels:
+    project: expense
+    component: backend
+    environment: dev
+    tier: app
+spec:
+  # modify replicas according to your case
+  replicas: {{ .Values.deployment.replicas }}
+  selector:
+    matchLabels:
+      project: expense
+      component: backend
+      environment: dev
+      tier: app
+    # below is the pod defination
+  template:
+    metadata:
+      labels:
+        project: expense
+        component: backend
+        environment: dev
+        tier: app
+    spec:
+      containers:
+      - name: backend
+        image: charan466/backend:{{ .Values.deployment.imageVersion }}
+        env:
+            - name: backend_ROOT_PASSWORD
+              value: ExpenseApp@1
+        envFrom:
+        - configMapRef:
+            name: backend
