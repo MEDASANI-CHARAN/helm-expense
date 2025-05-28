@@ -11,7 +11,7 @@ metadata:
     tier: app
 spec:
   # modify replicas according to your case
-  replicas: {{ .Values.deployment.replicas1 }}
+  replicas: {{ .Values.deployment.replicas }}
   selector:
     matchLabels:
       project: expense
@@ -29,7 +29,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: charan466/backend:{{ .Values.deployment.imageVersion1 }}
+        image: charan466/backend:{{ .Values.deployment.imageVersion }}
         env:
             - name: backend_ROOT_PASSWORD
               value: ExpenseApp@1
